@@ -1,0 +1,24 @@
+#!/bin/sh
+
+. /lib/functions.sh
+
+docker_containersList() {
+	curl --silent --unix-socket /var/run/docker.sock http://v1.41/containers/json
+}
+
+
+case "$1" in
+	list)
+		echo '{ "containersList": { "all": "Boolean", "limit": "Integer", "size": "Boolean", "filters": "String"} }'
+	;;
+	call)
+		case "$2" in
+			containersList)
+				docker_containersList
+			;;
+		esac
+	;;
+esac
+
+
+
