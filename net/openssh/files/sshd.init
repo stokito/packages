@@ -112,17 +112,7 @@ set_idle_timeout()
 {
 	local IdleTimeout="${1}"
 
-	# from https://www.man7.org/linux/man-pages/man5/sshd_config.5.html
-	# ClientAliveCountMax:
-	# The default value is 3.  If ClientAliveInterval is set to
-        # 15, and ClientAliveCountMax is left at the default,
-        # unresponsive SSH clients will be disconnected after
-        # approximately 45 seconds.  Setting a zero
-        # ClientAliveCountMax disables connection termination.
-	# 
-	# Therefore, to mimic IdleTimeout from dropbear, we set
-	# ClientAliveCountMax to 1 and ClientAliveInterval to
-	# the time we want to wait
+	# Mimic IdleTimeout from Dropbear
 	if [ "${IdleTimeout}" -ne 0 ]; then
 		append_config "ClientAliveCountMax" "1"
 		append_config "ClientAliveInterval" "${IdleTimeout}"
