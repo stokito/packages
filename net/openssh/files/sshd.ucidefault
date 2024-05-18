@@ -47,7 +47,6 @@ generate_sshd_section()
 	local mdns=""
 	local PasswordAuth=1
 	local Port=22
-	local RecvWindowSize=""
 	local RootLogin=1
 	local RootPasswordAuth=1
 	local SSHKeepAlive=""
@@ -70,7 +69,6 @@ generate_sshd_section()
 		config_get_bool mdns "$Cfg" mdns 1
 		config_get_bool PasswordAuth "$Cfg" PasswordAuth 1
 		config_get Port "$Cfg" Port 22
-		config_get_bool RecvWindowSize "$Cfg" RecvWindowSize 24576
 		config_get_bool RootLogin "$Cfg" RootLogin 1
 		config_get_bool RootPasswordAuth "$Cfg" RootPasswordAuth 1
 		config_get SSHKeepAlive "$Cfg" SSHKeepAlive 300
