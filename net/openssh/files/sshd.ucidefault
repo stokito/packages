@@ -85,7 +85,7 @@ generate_sshd_section()
 	set_option_list "$SectionName" "AllowUsers" "$AllowUsers"
 	set_option "$SectionName" "BannerFile" "$BannerFile"
 	set_option_list "$SectionName" "Ciphers" "$Ciphers"
-	set_option "$SectionName" "enable" "$Enable"
+	set_option "$SectionName" "enabled" "$Enable"
 	set_option "$SectionName" "GatewayPorts" "$GatewayPorts"
 	set_option_list "$SectionName" "HostKeyAlgorithms" "$HostKeyAlgorithms"
 	set_option "$SectionName" "IdleTimeout" "$IdleTimeout"
