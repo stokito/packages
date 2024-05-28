@@ -25,6 +25,7 @@ validate_section_sshd()
 		'HostKeyAlgorithms:list(string)' \
 		'HostKeyFiles:list(file)' \
 		'IdleTimeout:uinteger:0' \
+		'IncludeConfigFile:file:/etc/ssh/sshd_config' \
 		'Interface:string' \
 		'KexAlgorithms:list(string)' \
 		'MacAlgorithms:list(string)' \
@@ -112,7 +113,17 @@ set_idle_timeout()
 {
 	local IdleTimeout="${1}"
 
-	# Mimic IdleTimeout from Dropbear
+	# from https://www.man7.org/linux/man-pages/man5/sshd_config.5.html
+	# ClientAliveCountMax:
+	# The default value is 3.  If ClientAliveInterval is set to
+        # 15, and ClientAliveCountMax is left at the default,
+        # unresponsive SSH clients will be disconnected after
+        # approximately 45 seconds.  Setting a zero
+        # ClientAliveCountMax disables connection termination.
+	# 
+	# Therefore, to mimic IdleTimeout from dropbear, we set
+	# ClientAliveCountMax to 1 and ClientAliveInterval to
+	# the time we want to wait
 	if [ "${IdleTimeout}" -ne 0 ]; then
 		append_config "ClientAliveCountMax" "1"
 		append_config "ClientAliveInterval" "${IdleTimeout}"
@@ -169,6 +180,7 @@ set_params()
 	[ -n "${Ciphers}" ] && set_option_list_comma "Ciphers" "${Ciphers}"
 	[ -n "${ClientAliveCountMax}" ] && append_config "ClientAliveCountMax" "${ClientAliveCountMax}"
 	[ -n "${ClientAliveInterval}" ] && append_config "ClientAliveInterval" "${ClientAliveInterval}"
+	[ -n "${IncludeConfigFile}" ] && append_config "Include" "${IncludeConfigFile}"
 	[ -n "${HostKeyAlgorithms}" ] && set_option_list_comma "HostKeyAlgorithms" "${HostKeyAlgorithms}"
 	[ -n "${HostKeyFiles}" ] && set_option_list_comma "HostKey" "${HostKeyFiles}"
 	[ -n "${KexAlgorithms}" ] && set_option_list_comma "KexAlgorithms" "${KexAlgorithms}"
